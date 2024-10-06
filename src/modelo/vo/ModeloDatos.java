@@ -73,16 +73,7 @@ public class ModeloDatos {
 	
 	public void eliminarMascota() {
 		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;

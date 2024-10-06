@@ -2,12 +2,12 @@ package modelo.vo;
 
 public class MascotaVO {
 	
-	String idDueño;
-	String nombre;
-	String raza;
-	String edad;
+	private String idDueño;
+	private String nombre;
+	private String raza;
+	private int edad;
 	
-	public MascotaVO (String idDueño, String nombre, String raza, String edad) {
+	public MascotaVO (String idDueño, String nombre, String raza, int edad) {
 		this.idDueño = idDueño;
 		this.nombre = nombre;
 		this.raza = raza;
@@ -39,11 +39,11 @@ public class MascotaVO {
 		this.raza = raza;
 	}
 
-	public String getEdad() {
+	public int getEdad() {
 		return edad;
 	}
 
-	public void setEdad(String edad) {
+	public void setEdad(int edad) {
 		this.edad = edad;
 	}
 

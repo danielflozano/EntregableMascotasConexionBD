@@ -1,5 +1,6 @@
 package controlador;
 
+import modelo.dao.PersonaDAO;
 import modelo.operaciones.Procesos;
 import modelo.vo.ModeloDatos;
 import modelo.vo.PersonaVO;
@@ -14,6 +15,7 @@ public class Controlador {
 	private VentanaMascotas miVentanaMascotas;
 	private ModeloDatos miModeloDatos;
 	private Procesos miProcesos;
+	private PersonaDAO miPersonaDAO;
 
 	public void setVentanaPrincipal(VentanaPrincipal miVentanaPrincipal) {
 		this.miVentanaPrincipal = miVentanaPrincipal;
@@ -27,6 +29,11 @@ public class Controlador {
 
 	public void setVentanaMascotas(VentanaMascotas miVentanaMascotas) {
 		this.miVentanaMascotas = miVentanaMascotas;
+		
+	}
+	
+	public void setPersonaDAO(PersonaDAO miPersonaDAO) {
+		this.miPersonaDAO = miPersonaDAO;
 		
 	}
 
@@ -56,6 +63,22 @@ public class Controlador {
 	}
 	
 	public String registrarPersona(PersonaVO miPersonaVO) {
+		return miPersonaDAO.registrarPersona(miPersonaVO);
+		
+	}
+	
+	public PersonaVO consultarPersona(String documento) {
+		return miPersonaDAO.consultarPersona(documento);
+		
+	}
+	
+	public String actualizarPersona(PersonaVO miPersonaVO) {
+		return miPersonaDAO.actualizarPersona(miPersonaVO);
+		
+	}
+	
+	
+	/* public String registrarPersona(PersonaVO miPersonaVO) {
 		return miModeloDatos.registrarPersona(miPersonaVO);
 		
 	}
@@ -73,7 +96,7 @@ public class Controlador {
 	public String eliminarPersona(String documento) {
 		return miModeloDatos.eliminarPersona(documento);
 		
-	}
+	} */
 	
 
 }

@@ -150,60 +150,75 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnRegistrar) {
-			capturarDatosRegistro();
+			capturarDatos(1);
 		} else if (e.getSource() == btnConsultar) {
-			miControlador.consultarPersona(txtDoc.getText());
+			capturarDatosConsulta();
 		} else if (e.getSource() == btnActualizar) {
-			capturarDatosActualizacion();
+			capturarDatos(2);
 		} else if (e.getSource() == btnEliminar) {
-			miControlador.eliminarPersona(txtDoc.getText());
+			
 		}
 		
 		
 	}
 	
-	public void capturarDatosRegistro() {
+	public void capturarDatos(int opcion) {
 		if (txtDoc.getText().isEmpty() || txtNombre.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Todos los campos deben ser diligenciados obligatoriamente");
+			JOptionPane.showMessageDialog(null, "Todos los campos deben estar diligenciados obligatoriamente");
 				
 			} else {
 				PersonaVO miPersonaVO = new PersonaVO();
 				miPersonaVO.setDocumento(txtDoc.getText());
 				miPersonaVO.setNombre(txtNombre.getText());
 				miPersonaVO.setTelefono(txtTelefono.getText());
+				String mensaje = "";
 				
-				String mensaje = miControlador.registrarPersona(miPersonaVO);
+				switch (opcion) {
+				case 1:
+					mensaje = miControlador.registrarPersona(miPersonaVO);
+					break;
+				case 2:
+					mensaje = miControlador.actualizarPersona(miPersonaVO);
+					break;
+				}
+				
 				JOptionPane.showMessageDialog(null, mensaje);
 				
-				if (mensaje.equals("La persona que desea registrar ya se encuentra en la base de datos")) {
-					return;
-				} else {
-					limpiarCampos();
-				}
+				limpiarCampos();
+				
 			}
 	}
 	
-	public void capturarDatosActualizacion() {
-		if (txtDoc.getText().isEmpty() || txtNombre.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Todos los campos deben ser diligenciados obligatoriamente");
+	public void capturarDatosConsulta() {
+		String documento = txtDoc.getText();
+		
+		if (txtDoc.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Ingrese un documento para realizar la busqueda");
 			
 		} else {
-			PersonaVO miPersonaVO = new PersonaVO();
-			miPersonaVO.setDocumento(txtDoc.getText());
-			miPersonaVO.setNombre(txtNombre.getText());
-			miPersonaVO.setTelefono(txtTelefono.getText());
-			
-			String mensaje = miControlador.actualizarPersona(miPersonaVO);
-			JOptionPane.showMessageDialog(null, mensaje);
-			
-			if (mensaje.equals("La persona que intenta actualizar no existe en la base de datos")) {
-				return;
-			} else {
-				limpiarCampos();
+			try {
+				PersonaVO miPersonaVO = miControlador.consultarPersona(documento);
+				if (miPersonaVO == null) {
+					textArea.setText("La persona no se encuentra en la base de datos");
+					
+				} else {
+					textArea.setText(miPersonaVO.toString());
+					
+				}
+				
+			} catch (RuntimeException e) {
+				JOptionPane.showMessageDialog(null, "Error al consultar la persona: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
+			
+			
 		}
 	}
-
+	
+	public void capturarDatosEliminacion() {
+		
+	}
+	
+	
 	private void limpiarCampos() {
 		txtDoc.setText("");
 		txtNombre.setText("");
