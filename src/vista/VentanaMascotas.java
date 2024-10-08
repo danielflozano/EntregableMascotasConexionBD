@@ -10,6 +10,8 @@ import controlador.Controlador;
 import modelo.vo.MascotaVO;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -160,9 +162,9 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnRegistrar) {
-			
+			capturarDatos(1);
 		} else if (e.getSource() == btnConsultar) {
-			
+			capturarDatosConsulta();
 		} else if (e.getSource() == btnActualizar) {
 			
 		} else if (e.getSource() == btnEliminar) {
@@ -183,7 +185,55 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 			miMascotaVO.setSexo(txtSexo.getText());
 			String mensaje = "";
 			
+			switch (opcion) {
+			case 1:
+				mensaje = miControlador.registrarMascota(miMascotaVO);
+				break;
+			case 2:
+				//
+				break;
+			}
+			
+			textArea.setText(mensaje);
+			limpiarCampos();
+			
 		}
+		
+	}
+	
+	public void capturarDatosConsulta() {
+		String documento = txtId.getText();
+		
+		if (txtId.getText().isEmpty()) {
+			textArea.setText("Ingrese algún documento para realizar la busqueda");
+			
+		} else {
+			try {
+				MascotaVO miMascotaVO = miControlador.consultarMascota(documento);
+				if (miMascotaVO == null) {
+					textArea.setText("La mascota no se encuentra en la base de datos");
+					
+				} else {
+					textArea.setText(miMascotaVO.toString());
+					
+				}
+				
+			} catch (RuntimeException e) {
+				JOptionPane.showMessageDialog(null, "Error al consultar la persona: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				
+			}
+			
+		}
+		
+		
+	}
+	
+	private void limpiarCampos() {
+		txtId.setText("");
+		txtNombre.setText("");
+		txtRaza.setText("");
+		txtSexo.setText("");
+		
 		
 	}
 

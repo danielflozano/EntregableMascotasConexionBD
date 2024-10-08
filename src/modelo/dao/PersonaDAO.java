@@ -132,8 +132,7 @@ public class PersonaDAO {
 				
 			}
 			
-		}
-		
+		}		
 		return resultado;
 		
 	}

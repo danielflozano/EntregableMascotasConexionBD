@@ -183,8 +183,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 					break;
 				}
 				
-				JOptionPane.showMessageDialog(null, mensaje);
-				
+				JOptionPane.showMessageDialog(null, mensaje);				
 				limpiarCampos();
 				
 			}
@@ -194,7 +193,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 		String documento = txtDoc.getText();
 		
 		if (txtDoc.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Ingrese un documento para realizar la busqueda");
+			JOptionPane.showMessageDialog(null, "Ingrese algún documento para realizar la busqueda");
 			
 		} else {
 			try {
@@ -209,6 +208,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 				
 			} catch (RuntimeException e) {
 				JOptionPane.showMessageDialog(null, "Error al consultar la persona: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				
 			}			
 			
 		}

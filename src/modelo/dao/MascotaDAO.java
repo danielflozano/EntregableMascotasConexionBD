@@ -21,7 +21,7 @@ public class MascotaDAO {
 		PreparedStatement preStatement = null;
 		
 		connection = conexion.getConnection();
-		String consulta = "INSERT INTO mascotas (idDueño, nombre, raza, sexo) VALUES (?,?,?)";
+		String consulta = "INSERT INTO mascotas (idDueño, nombre, raza, sexo) VALUES (?,?,?,?)";
 		
 		try {
 			preStatement = connection.prepareStatement(consulta);
@@ -96,7 +96,43 @@ public class MascotaDAO {
 		return miMascotaVO;
 	}
 	
-	
+	public String actualizarMascota(MascotaVO miMascotaVO) {
+		String resultado = "";
+		
+		Connection connection = null;
+		Conexion conexion = new Conexion();
+		PreparedStatement preStatement = null;
+		connection = conexion.getConnection();
+		
+		try {
+			String consulta = "UPDATE mascotas SET idDueño = ?, nombre = ?, raza = ?, sexo = ? WHERE idDueño = ?";
+			preStatement = connection.prepareStatement(consulta);
+			preStatement.setString(1, miMascotaVO.getIdDueño());
+			preStatement.setString(2, miMascotaVO.getNombre());
+			preStatement.setString(3, miMascotaVO.getRaza());
+			preStatement.setString(4, miMascotaVO.getSexo());
+			preStatement.setString(5, miMascotaVO.getIdDueño());
+			preStatement.executeUpdate();
+			
+			resultado = "La Mascota " + miMascotaVO.getNombre() + " Ha sido actualizada";
+			
+		} catch (SQLException e) {
+			resultado = "error " + e.getMessage();
+			
+		} finally {
+			try {
+				if (preStatement != null) preStatement.close();
+				conexion.desconectar();
+				
+			} catch (SQLException e) {
+				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
+				
+			}
+			
+		}		
+		return resultado;
+		
+	}
 	
 	
 	
