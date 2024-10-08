@@ -36,11 +36,19 @@ public class PersonaDAO {
 			resultado = "Registro de persona exitoso";
 			
 		} catch (SQLException e) {
-			resultado = "Error, No se pudo registrar el usuario " + e.getMessage();
+			resultado = "Error, No se pudo registrar la persona correctamente " + e.getMessage();
 			
-		}
-		
-		conexion.desconectar();		
+		} finally {
+			try {
+				if (preStatement != null) preStatement.close();
+				conexion.desconectar();
+				
+			} catch (SQLException e) {
+				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
+				
+			}
+			
+		}	
 		
 		return resultado;
 		
@@ -148,8 +156,8 @@ public class PersonaDAO {
 			conexion.desconectar();			
 			
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
 			resultado = "Error";
+			throw new RuntimeException(e.getMessage());
 			
 		}
 		return resultado;

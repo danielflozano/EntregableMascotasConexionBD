@@ -5,13 +5,17 @@ public class MascotaVO {
 	private String idDueño;
 	private String nombre;
 	private String raza;
-	private int edad;
+	private String sexo;
 	
-	public MascotaVO (String idDueño, String nombre, String raza, int edad) {
+	public MascotaVO(String idDueño, String nombre, String raza, String sexo) {
 		this.idDueño = idDueño;
 		this.nombre = nombre;
 		this.raza = raza;
-		this.edad = edad;
+		this.sexo = sexo;
+		
+	}
+	
+	public MascotaVO() {
 		
 	}
 
@@ -39,12 +43,12 @@ public class MascotaVO {
 		this.raza = raza;
 	}
 
-	public int getEdad() {
-		return edad;
+	public String getSexo() {
+		return sexo;
 	}
 
-	public void setEdad(int edad) {
-		this.edad = edad;
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	@Override
@@ -52,10 +56,8 @@ public class MascotaVO {
 		return "Id Dueño = " + idDueño + "\n" +
 				"Nombre = " + nombre + "\n" +
 				"Raza = " + raza + "\n" +
-				"Edad = " + edad;
+				"Sexo = " + sexo;
 		
-	}
+	}	
 	
-	
-
 }

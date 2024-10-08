@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -156,7 +157,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 		} else if (e.getSource() == btnActualizar) {
 			capturarDatos(2);
 		} else if (e.getSource() == btnEliminar) {
-			
+			capturarDatosEliminacion();
 		}
 		
 		
@@ -208,13 +209,30 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 				
 			} catch (RuntimeException e) {
 				JOptionPane.showMessageDialog(null, "Error al consultar la persona: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			
+			}			
 			
 		}
+		
 	}
 	
 	public void capturarDatosEliminacion() {
+		String documento = txtDoc.getText();
+		String mensaje = "";
+		
+		if (txtDoc.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Ingrese un documento para realizar la busqueda");
+			
+		} else {
+			try {
+				mensaje = miControlador.eliminarPersona(documento);
+				textArea.setText(mensaje);
+				
+			} catch (RuntimeException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				
+			}
+			
+		}
 		
 	}
 	

@@ -7,9 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
+import modelo.vo.MascotaVO;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -17,7 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JSeparator;
 
-public class VentanaMascotas extends JFrame {
+public class VentanaMascotas extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -104,26 +108,31 @@ public class VentanaMascotas extends JFrame {
 		btnRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnRegistrar.setBounds(80, 240, 180, 40);
 		contentPane.add(btnRegistrar);
+		btnRegistrar.addActionListener(this);
 		
 		btnConsultar = new JButton("Consultar");
 		btnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnConsultar.setBounds(321, 240, 180, 40);
 		contentPane.add(btnConsultar);
+		btnConsultar.addActionListener(this);
 		
 		btnActualizar = new JButton("Actualizar");
 		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnActualizar.setBounds(80, 300, 180, 40);
 		contentPane.add(btnActualizar);
+		btnActualizar.addActionListener(this);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnEliminar.setBounds(321, 300, 180, 40);
 		contentPane.add(btnEliminar);
+		btnEliminar.addActionListener(this);
 		
 		btnConsultarLista = new JButton("Consultar Lista");
 		btnConsultarLista.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnConsultarLista.setBounds(80, 360, 421, 40);
 		contentPane.add(btnConsultarLista);
+		btnConsultarLista.addActionListener(this);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 420, 566, 320);
@@ -147,10 +156,43 @@ public class VentanaMascotas extends JFrame {
 		contentPane.add(txtSexo);
 		
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRegistrar) {
+			
+		} else if (e.getSource() == btnConsultar) {
+			
+		} else if (e.getSource() == btnActualizar) {
+			
+		} else if (e.getSource() == btnEliminar) {
+			
+		}
+		
+	}
+	
+	public void capturarDatos(int opcion) {
+		if (txtId.getText().isEmpty() || txtNombre.getText().isEmpty() || txtRaza.getText().isEmpty() || txtSexo.getText().isEmpty()) {
+			textArea.setText("Todos los campos deben estar diligenciados obligatoriamente");
+			
+		} else {
+			MascotaVO miMascotaVO = new MascotaVO();
+			miMascotaVO.setIdDueño(txtId.getText());
+			miMascotaVO.setNombre(txtNombre.getText());
+			miMascotaVO.setRaza(txtRaza.getText());
+			miMascotaVO.setSexo(txtSexo.getText());
+			String mensaje = "";
+			
+		}
+		
+	}
 
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
 		
 	}
+
+
+
 
 }

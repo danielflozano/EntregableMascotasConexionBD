@@ -1,5 +1,6 @@
 package controlador;
 
+import modelo.dao.MascotaDAO;
 import modelo.dao.PersonaDAO;
 import modelo.operaciones.Procesos;
 import modelo.vo.ModeloDatos;
@@ -15,6 +16,7 @@ public class Relaciones {
 		VentanaPersonas miVentanaPersonas = new VentanaPersonas();
 		VentanaMascotas miVentanaMascotas = new VentanaMascotas();
 		PersonaDAO miPersonaDAO = new PersonaDAO();
+		MascotaDAO miMascotaDAO = new MascotaDAO();
 		ModeloDatos miModeloDatos = new ModeloDatos();
 		Procesos miProcesos = new Procesos();
 		
@@ -22,6 +24,7 @@ public class Relaciones {
 		miVentanaPersonas.setControlador(miControlador);
 		miVentanaMascotas.setControlador(miControlador);
 		miPersonaDAO.setControlador(miControlador);
+		miMascotaDAO.setControlador(miControlador);
 		miModeloDatos.setControlador(miControlador);
 		miProcesos.setControlador(miControlador);
 		
@@ -29,6 +32,7 @@ public class Relaciones {
 		miControlador.setVentanaPersonas(miVentanaPersonas);
 		miControlador.setVentanaMascotas(miVentanaMascotas);
 		miControlador.setPersonaDAO(miPersonaDAO);
+		miControlador.setMascotaDAO(miMascotaDAO);
 		miControlador.setmiModeloDatos(miModeloDatos);
 		miControlador.setProcesos(miProcesos);
 		
