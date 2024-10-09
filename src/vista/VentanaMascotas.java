@@ -166,9 +166,9 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 		} else if (e.getSource() == btnConsultar) {
 			capturarDatosConsulta();
 		} else if (e.getSource() == btnActualizar) {
-			
+			capturarDatos(2);
 		} else if (e.getSource() == btnEliminar) {
-			
+			capturarDatosEliminar();
 		}
 		
 	}
@@ -188,14 +188,14 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 			switch (opcion) {
 			case 1:
 				mensaje = miControlador.registrarMascota(miMascotaVO);
+				limpiarCampos();
 				break;
 			case 2:
-				//
+				mensaje = miControlador.actualizarMascota(miMascotaVO);
 				break;
 			}
 			
 			textArea.setText(mensaje);
-			limpiarCampos();
 			
 		}
 		
@@ -224,7 +224,26 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 			}
 			
 		}
+				
+	}
+	
+	public void capturarDatosEliminar() {
+		String documento = txtId.getText();
+		String mensaje = "";
 		
+		if (txtId.getText().isEmpty()) {
+			textArea.setText("Ingrese un id para eliminar la mascota");
+		} else {
+			try {
+				mensaje = miControlador.eliminarMascota(documento);
+				textArea.setText(mensaje);
+				
+			} catch (RuntimeException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				
+			}
+			
+		}
 		
 	}
 	
@@ -241,8 +260,5 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 		this.miControlador = miControlador;
 		
 	}
-
-
-
 
 }

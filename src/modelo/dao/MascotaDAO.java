@@ -40,6 +40,7 @@ public class MascotaDAO {
 			try {
 				if (preStatement != null) preStatement.close();
 				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
 				
 			} catch (SQLException e) {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
@@ -59,11 +60,11 @@ public class MascotaDAO {
 		MascotaVO miMascotaVO = null;
 		
 		connection = conexion.getConnection();
-		String consulata = "SELECT idDueño, nombre, raza, sexo FROM mascotas WHERE idDueño = ?";
+		String consulta = "SELECT idDueño, nombre, raza, sexo FROM mascotas WHERE idDueño = ?";
 		
 		try {
 			if (connection != null) {
-				preStatement = connection.prepareStatement(consulata);
+				preStatement = connection.prepareStatement(consulta);
 				preStatement.setString(1, documento);
 				result = preStatement.executeQuery();
 				
@@ -87,6 +88,7 @@ public class MascotaDAO {
 				if (result != null) result.close();
 				if (preStatement != null) preStatement.close();
 				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
 				
 			} catch (SQLException e) {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
@@ -98,31 +100,49 @@ public class MascotaDAO {
 	
 	public String actualizarMascota(MascotaVO miMascotaVO) {
 		String resultado = "";
+		String documento = miMascotaVO.getIdDueño();
 		
 		Connection connection = null;
 		Conexion conexion = new Conexion();
 		PreparedStatement preStatement = null;
+		ResultSet result = null;
+		
 		connection = conexion.getConnection();
 		
 		try {
-			String consulta = "UPDATE mascotas SET idDueño = ?, nombre = ?, raza = ?, sexo = ? WHERE idDueño = ?";
-			preStatement = connection.prepareStatement(consulta);
-			preStatement.setString(1, miMascotaVO.getIdDueño());
-			preStatement.setString(2, miMascotaVO.getNombre());
-			preStatement.setString(3, miMascotaVO.getRaza());
-			preStatement.setString(4, miMascotaVO.getSexo());
-			preStatement.setString(5, miMascotaVO.getIdDueño());
-			preStatement.executeUpdate();
-			
-			resultado = "La Mascota " + miMascotaVO.getNombre() + " Ha sido actualizada";
+			String consulta = "SELECT * FROM mascotas WHERE idDueño = ?";
+			if (connection != null) {
+				preStatement = connection.prepareStatement(consulta);
+				preStatement.setString(1, documento);
+				result = preStatement.executeQuery();
+				
+				if (result.next()) {
+					consulta = "UPDATE mascotas SET idDueño = ?, nombre = ?, raza = ?, sexo = ? WHERE idDueño = ?";
+					preStatement = connection.prepareStatement(consulta);
+					preStatement.setString(1, miMascotaVO.getIdDueño());
+					preStatement.setString(2, miMascotaVO.getNombre());
+					preStatement.setString(3, miMascotaVO.getRaza());
+					preStatement.setString(4, miMascotaVO.getSexo());
+					preStatement.setString(5, miMascotaVO.getIdDueño());
+					preStatement.executeUpdate();
+					
+					resultado = "La Mascota " + miMascotaVO.getNombre() + " Ha sido actualizada";
+					
+				} else {
+					resultado = "La mascota que intenta actualizar no existe en la base de datos";
+					
+				}
+			}
 			
 		} catch (SQLException e) {
 			resultado = "error " + e.getMessage();
 			
 		} finally {
 			try {
+				if (result != null) result.close();
 				if (preStatement != null) preStatement.close();
 				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
 				
 			} catch (SQLException e) {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
@@ -134,14 +154,57 @@ public class MascotaDAO {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public String eliminarMascota(String documento) {
+		String resultado = "";
+		
+		Connection connection = null;
+		Conexion conexion = new Conexion();
+		PreparedStatement preStatement = null;
+		ResultSet result = null;
+		
+		connection = conexion.getConnection();
+		
+		try {
+			String consulta = "SELECT * FROM mascotas WHERE idDueño = ?";
+			if (connection != null) {
+				preStatement = connection.prepareStatement(consulta);
+				preStatement.setString(1, documento);
+				result = preStatement.executeQuery();
+				
+				if (result.next()) {
+					consulta = "DELETE FROM mascotas WHERE idDueño = ?";
+					preStatement = connection.prepareStatement(consulta);
+					preStatement.setString(1, documento);
+					preStatement.executeUpdate();
+					resultado = "La mascota ha sido eliminada correctamente";
+					
+				} else {
+					resultado = "La mascota que intenta eliminar no existe en la base de datos";
+					
+				}
+				
+			}
+			
+		} catch (SQLException e) {
+			resultado = "error";
+			throw new RuntimeException(e.getMessage());
+			
+		} finally {
+			try {
+				if (result != null) result.close();
+				if (preStatement != null) preStatement.close();
+				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
+				
+			} catch (SQLException e) {
+				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
+			
+			}
+			
+		}
+		return resultado;
+		
+	}	
 
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;

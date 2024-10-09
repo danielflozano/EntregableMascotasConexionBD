@@ -42,6 +42,7 @@ public class PersonaDAO {
 			try {
 				if (preStatement != null) preStatement.close();
 				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
 				
 			} catch (SQLException e) {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
@@ -89,6 +90,7 @@ public class PersonaDAO {
 				if (result != null) result.close();
 				if (preStatement != null) preStatement.close();
 				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
 				
 			} catch (SQLException e) {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
@@ -102,30 +104,49 @@ public class PersonaDAO {
 	
 	public String actualizarPersona(PersonaVO miPersonaVO) {
 		String resultado = "";
+		String documento = miPersonaVO.getDocumento();
 		
 		Connection connection = null;
 		Conexion conexion = new Conexion();
 		PreparedStatement preStatement = null;
+		ResultSet result = null;
+		
 		connection = conexion.getConnection();
 		
 		try {
-			String consulta = "UPDATE personas SET documento = ?, nombre = ?, telefono = ? WHERE documento = ?";
-			preStatement = connection.prepareStatement(consulta);
-			preStatement.setString(1, miPersonaVO.getDocumento());
-			preStatement.setString(2, miPersonaVO.getNombre());
-			preStatement.setString(3, miPersonaVO.getTelefono());
-			preStatement.setString(4, miPersonaVO.getDocumento());
-			preStatement.executeUpdate();
-			
-			resultado = "La persona " + miPersonaVO.getNombre() + " Ha sido actualizada";
+			String consulta = "SELECT * FROM personas WHERE documento = ?";
+			if (connection != null) {
+				preStatement = connection.prepareStatement(consulta);
+				preStatement.setString(1, documento);
+				result = preStatement.executeQuery();
+				
+				if (result.next()) {
+					consulta = "UPDATE personas SET documento = ?, nombre = ?, telefono = ? WHERE documento = ?";
+					preStatement = connection.prepareStatement(consulta);
+					preStatement.setString(1, miPersonaVO.getDocumento());
+					preStatement.setString(2, miPersonaVO.getNombre());
+					preStatement.setString(3, miPersonaVO.getTelefono());
+					preStatement.setString(4, miPersonaVO.getDocumento());
+					preStatement.executeUpdate();
+					
+					resultado = "La persona " + miPersonaVO.getNombre() + " Ha sido actualizada";
+					
+				} else {
+					resultado = "La persona que intenta actualizar no existe en la base de datos";
+					
+				}
+				
+			}
 			
 		} catch (SQLException e) {
 			resultado = "Error: " + e.getMessage();
 			
 		} finally {
 			try {
+				if (result != null) result.close();
 				if (preStatement != null) preStatement.close();
 				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
 				
 			} catch (SQLException e) {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
@@ -139,24 +160,49 @@ public class PersonaDAO {
 	
 	public String eliminarPersona (String documento) {
 		String resultado = "";
-		
+				
 		Connection connection = null;
 		Conexion conexion = new Conexion();
 		PreparedStatement preStatement = null;
+		ResultSet result = null;
+		
 		connection = conexion.getConnection();
 		
 		try {
-			String consulta = "DELETE FROM personas WHERE documento = ?";
-			preStatement = connection.prepareStatement(consulta);
-			preStatement.setString(1, documento);
-			preStatement.executeUpdate();
-			resultado = "La persona ha sido eliminada satisfactoriamente";
-			preStatement.close();
-			conexion.desconectar();			
-			
+			String consulta = "SELECT * FROM personas WHERE documento = ?";
+			if (connection != null) {
+				preStatement = connection.prepareStatement(consulta);
+				preStatement.setString(1, documento);
+				result = preStatement.executeQuery();
+				
+				if (result.next()) {
+					consulta = "DELETE FROM personas WHERE documento = ?";
+					preStatement = connection.prepareStatement(consulta);
+					preStatement.setString(1, documento);
+					preStatement.executeUpdate();
+					resultado = "La persona ha sido eliminada satisfactoriamente";
+					
+				} else {
+					resultado = "La persona que intenta eliminar no existe en la base de datos";
+					
+				}
+			}
+										
 		} catch (SQLException e) {
 			resultado = "Error";
 			throw new RuntimeException(e.getMessage());
+			
+		} finally {
+			try {
+				if (result != null) result.close();
+				if (preStatement != null) preStatement.close();
+				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
+				
+			} catch (SQLException e) {
+				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
+			
+			}
 			
 		}
 		return resultado;

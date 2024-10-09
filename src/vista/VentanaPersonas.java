@@ -152,6 +152,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnRegistrar) {
 			capturarDatos(1);
+			
 		} else if (e.getSource() == btnConsultar) {
 			capturarDatosConsulta();
 		} else if (e.getSource() == btnActualizar) {
@@ -165,7 +166,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 	
 	public void capturarDatos(int opcion) {
 		if (txtDoc.getText().isEmpty() || txtNombre.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Todos los campos deben estar diligenciados obligatoriamente");
+			textArea.setText("Todos los campos deben estar diligenciados obligatoriamente");
 				
 			} else {
 				PersonaVO miPersonaVO = new PersonaVO();
@@ -177,14 +178,14 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 				switch (opcion) {
 				case 1:
 					mensaje = miControlador.registrarPersona(miPersonaVO);
+					limpiarCampos();
 					break;
 				case 2:
 					mensaje = miControlador.actualizarPersona(miPersonaVO);
 					break;
 				}
 				
-				JOptionPane.showMessageDialog(null, mensaje);				
-				limpiarCampos();
+				textArea.setText(mensaje);
 				
 			}
 	}
@@ -193,7 +194,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 		String documento = txtDoc.getText();
 		
 		if (txtDoc.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Ingrese algún documento para realizar la busqueda");
+			textArea.setText("Ingrese algún documento para realizar la busqueda");
 			
 		} else {
 			try {
@@ -220,7 +221,7 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 		String mensaje = "";
 		
 		if (txtDoc.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Ingrese un documento para realizar la busqueda");
+			textArea.setText("Ingrese un documento para eliminar la persona");
 			
 		} else {
 			try {
@@ -228,14 +229,13 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 				textArea.setText(mensaje);
 				
 			} catch (RuntimeException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				
 			}
 			
 		}
 		
-	}
-	
+	}	
 	
 	private void limpiarCampos() {
 		txtDoc.setText("");

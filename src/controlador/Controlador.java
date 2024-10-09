@@ -100,6 +100,14 @@ public class Controlador {
 		
 	}
 	
+	public String actualizarMascota(MascotaVO miMascotaVO) {
+		return miMascotaDAO.actualizarMascota(miMascotaVO);
+	}
+	
+	public String eliminarMascota(String documento) {
+		return miMascotaDAO.eliminarMascota(documento);
+	}
+	
 	
 	/* public String registrarPersona(PersonaVO miPersonaVO) {
 		return miModeloDatos.registrarPersona(miPersonaVO);
