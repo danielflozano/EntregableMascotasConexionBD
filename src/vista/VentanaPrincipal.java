@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 public class VentanaPrincipal extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel panelPrincipal;
+	private FondoConImagen panelPrincipal;
 	private JLabel lblTitulo;
 	private JButton btnPersonas;
 	private JButton btnMascotas;
@@ -43,7 +43,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 	private void iniciarComponentes() {
 		setBounds(100, 100, 657, 491);
-		panelPrincipal = new JPanel();
+		panelPrincipal = new FondoConImagen("src/assets/Mascotas.png");
 		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(panelPrincipal);
@@ -51,24 +51,24 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		
 		lblTitulo = new JLabel("Sistema Veterinario DFL");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setFont(new Font("Verdana", Font.BOLD, 30));
-		lblTitulo.setBounds(10, 40, 623, 37);
+		lblTitulo.setFont(new Font("Verdana", Font.BOLD, 35));
+		lblTitulo.setBounds(10, 30, 623, 37);
 		panelPrincipal.add(lblTitulo);
 		
 		btnPersonas = new JButton("Gestionar Personas");
-		btnPersonas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnPersonas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPersonas.setBounds(79, 353, 180, 40);
 		panelPrincipal.add(btnPersonas);
 		btnPersonas.addActionListener(this);
 		
 		btnMascotas = new JButton("Gestionar Mascotas");
-		btnMascotas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnMascotas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnMascotas.setBounds(384, 353, 180, 40);
 		panelPrincipal.add(btnMascotas);
 		btnMascotas.addActionListener(this);
 		
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnPersonas) {
