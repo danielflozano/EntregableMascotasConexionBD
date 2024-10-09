@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import controlador.Controlador;
 import modelo.conexion.Conexion;
@@ -94,8 +96,60 @@ public class MascotaDAO {
 				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
 				
 			}
+			
 		}
 		return miMascotaVO;
+		
+	}
+	
+	public List<MascotaVO> consultarMascotas() {
+		List<MascotaVO> listaMascotas = new ArrayList<>();
+		
+		Connection connection = null;
+		Conexion conexion = new Conexion();
+		PreparedStatement preStatement = null;
+		ResultSet result = null;
+		
+		connection = conexion.getConnection();
+		String consulta = "SELECT idDueño, nombre, raza, sexo FROM mascotas";
+		
+		try {
+			if (connection != null) {
+				preStatement = connection.prepareStatement(consulta);
+				result = preStatement.executeQuery();
+				
+				while (result.next()) {
+					MascotaVO miMascotaVO = new MascotaVO();
+					miMascotaVO.setIdDueño(result.getString("idDueño"));
+					miMascotaVO.setNombre(result.getString("nombre"));
+					miMascotaVO.setRaza(result.getString("raza"));
+					miMascotaVO.setSexo(result.getString("sexo"));
+					
+					listaMascotas.add(miMascotaVO);
+					
+				}
+				
+			}
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("Error en la consulta de las mascotas " + e.getMessage());
+			
+		} finally {
+			
+			try {
+				if (result != null) result.close();
+				if (preStatement != null) preStatement.close();
+				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
+				
+			} catch (SQLException e) {
+				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
+				
+			}
+			
+		}
+		return listaMascotas;
+		
 	}
 	
 	public String actualizarMascota(MascotaVO miMascotaVO) {

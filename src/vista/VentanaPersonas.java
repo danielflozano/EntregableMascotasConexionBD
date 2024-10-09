@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -159,9 +160,9 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 			capturarDatos(2);
 		} else if (e.getSource() == btnEliminar) {
 			capturarDatosEliminacion();
-		}
-		
-		
+		} else if (e.getSource() == btnConsultarLista) {
+			consultarLista();			
+		}		
 	}
 	
 	public void capturarDatos(int opcion) {
@@ -211,6 +212,20 @@ public class VentanaPersonas extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Error al consultar la persona: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				
 			}			
+			
+		}
+		
+	}
+	
+	public void consultarLista() {
+		textArea.setText("");
+		
+		List<PersonaVO> listaPersonas = miControlador.consultarPersonas();
+		
+		for (PersonaVO persona : listaPersonas) {
+			textArea.append("Documento: " + persona.getDocumento() + "\n" +
+					"Nombre: " + persona.getNombre() + "\n" +
+					"Teléfono: " + persona.getTelefono() + "\n\n");
 			
 		}
 		

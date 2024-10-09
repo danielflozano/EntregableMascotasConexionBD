@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.management.RuntimeErrorException;
 import javax.swing.JOptionPane;
@@ -82,7 +84,7 @@ public class PersonaDAO {
 			}			
 				
 		} catch (SQLException e) {
-			throw new RuntimeException("Error en la consulta del usuario" + e.getMessage());
+			throw new RuntimeException("Error en la consulta de la persona " + e.getMessage());
 			
 		} finally {
 			
@@ -99,6 +101,56 @@ public class PersonaDAO {
 			
 		}
 		return miPersonaVO;
+		
+	}
+	
+	public List<PersonaVO> consultarPersonas() {
+		List<PersonaVO> listaPersonas = new ArrayList<>();
+		
+		Connection connection = null;
+		Conexion conexion = new Conexion();
+		PreparedStatement preStatement = null;
+		ResultSet result = null;
+		
+		connection = conexion.getConnection();
+		String consulta = "SELECT documento, nombre, telefono FROM personas";
+		
+		try {
+			if (connection != null) {
+				preStatement = connection.prepareStatement(consulta);
+				result = preStatement.executeQuery();
+				
+				while (result.next()) {
+					PersonaVO miPersonaVO = new PersonaVO();
+					miPersonaVO.setDocumento(result.getString("documento"));
+					miPersonaVO.setNombre(result.getString("nombre"));
+					miPersonaVO.setTelefono(result.getString("telefono"));
+					
+					listaPersonas.add(miPersonaVO);
+					
+				}
+				
+			}			
+				
+		} catch (SQLException e) {
+			throw new RuntimeException("Error en la consulta de las personas " + e.getMessage());
+			
+		} finally {
+			
+			try {
+				if (result != null) result.close();
+				if (preStatement != null) preStatement.close();
+				conexion.desconectar();
+				System.out.println("Todos los recursos han sido cerrados");
+				
+			} catch (SQLException e) {
+				throw new RuntimeException("Error al cerrar los recursos: " + e.getMessage());
+				
+			}
+			
+		}
+		return listaPersonas;
+		
 		
 	}
 	

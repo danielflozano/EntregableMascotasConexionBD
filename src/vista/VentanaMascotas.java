@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
 import modelo.vo.MascotaVO;
+import modelo.vo.PersonaVO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -169,6 +171,8 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 			capturarDatos(2);
 		} else if (e.getSource() == btnEliminar) {
 			capturarDatosEliminar();
+		} else if (e.getSource() == btnConsultarLista) {
+			consultarLista();
 		}
 		
 	}
@@ -225,6 +229,21 @@ public class VentanaMascotas extends JFrame implements ActionListener {
 			
 		}
 				
+	}
+	
+	public void consultarLista() {
+		textArea.setText("");
+		
+		List<MascotaVO> listaMascotas = miControlador.consultarMascotas();
+		
+		for (MascotaVO mascota : listaMascotas) {
+			textArea.append("Id-Dueño: " + mascota.getIdDueño() + "\n" +
+					"Nombre: " + mascota.getNombre() + "\n" +
+					"Raza: " + mascota.getRaza() + "\n" +
+					"Sexo: " + mascota.getSexo() + "\n\n");
+			
+		}
+		
 	}
 	
 	public void capturarDatosEliminar() {

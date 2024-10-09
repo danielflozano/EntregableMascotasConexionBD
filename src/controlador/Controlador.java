@@ -1,5 +1,7 @@
 package controlador;
 
+import java.util.List;
+
 import modelo.dao.MascotaDAO;
 import modelo.dao.PersonaDAO;
 import modelo.operaciones.Procesos;
@@ -80,6 +82,11 @@ public class Controlador {
 		
 	}
 	
+	public List<PersonaVO> consultarPersonas() {
+		return miPersonaDAO.consultarPersonas();
+		
+	}
+	
 	public String actualizarPersona(PersonaVO miPersonaVO) {
 		return miPersonaDAO.actualizarPersona(miPersonaVO);
 		
@@ -97,6 +104,11 @@ public class Controlador {
 	
 	public MascotaVO consultarMascota(String documento) {
 		return miMascotaDAO.consultarMascota(documento);
+		
+	}
+	
+	public List<MascotaVO> consultarMascotas() {
+		return miMascotaDAO.consultarMascotas();
 		
 	}
 	
